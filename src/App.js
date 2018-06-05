@@ -1,5 +1,19 @@
 import React, { Component } from 'react';
+import { ThemeProvider } from 'styled-components';
 import ChatBot, { Loading } from 'react-simple-chatbot';
+const theme = {
+  backgroundImage: 'url("https://www.bookmee.ch/45cf21b9ee27587b7ea6a87fc033f899.svg")',
+   // background: '#f5f8fb',
+   fontFamily: '“Helvetica Neue”,Helvetica,Arial,sans-serif!important',
+   headerBgColor: '#5e9df1',
+   headerFontColor: '#fff',
+   headerFontSize: '15px',
+   botBubbleColor: '#5e9df1',
+   botFontColor: '#fff',
+   userBubbleColor: '#fff',
+   userFontColor: 'rgb(110, 122, 137)',
+
+};
 
 class DBPedia extends Component {
   constructor(props) {
@@ -58,11 +72,14 @@ class DBPedia extends Component {
 }
 
 const App = () => (
+  <ThemeProvider theme={theme}>
   <ChatBot
+    botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
+    hideUserAvatar={true}
     steps={[
       {
         id: '1',
-        message: 'Type something to search on Wikipédia. (Ex.: Brazil)',
+        message: "🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?",
         trigger: 'search',
       },
       {
@@ -79,6 +96,7 @@ const App = () => (
       },
     ]}
   />
+    </ThemeProvider>
 );
 
 export default App;
