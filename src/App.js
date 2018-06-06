@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import ChatBot, { Loading } from 'react-simple-chatbot';
 const theme = {
-  backgroundImage: 'url("https://www.bookmee.ch/45cf21b9ee27587b7ea6a87fc033f899.svg")',
-   // background: '#f5f8fb',
+   backgroundImage: 'url("https://www.bookmee.ch/45cf21b9ee27587b7ea6a87fc033f899.svg")',
    fontFamily: '“Helvetica Neue”,Helvetica,Arial,sans-serif!important',
    headerBgColor: '#5e9df1',
    headerFontColor: '#fff',
@@ -18,23 +17,32 @@ const theme = {
 class DBPedia extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
       result: '',
       trigger: false,
+      options: false,
     };
   }
 
   componentWillMount() {
     const self = this;
-    const { steps, previousStep } = this.props;
+    const { steps, previousStep, step } = this.props;
+    // const options = steps.options.value;
+    // const choiceLabel = steps.options.message;
     const search = steps.search.value;
     const endpoint = encodeURI('http://localhost:6060/api/message');
     var headers = new Headers();
     var message = {
         "message": search
     };
+
+
+    // if(options === 'celibataire' || options === 'marie'){
+    //   var message = {
+    //     "message" : choiceLabel
+    //   }
+    // }
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
     var fetchOptions = {
@@ -54,8 +62,9 @@ class DBPedia extends Component {
           self.setState({
             result: jsonData,
           })
-            self.props.triggerNextStep(4);
-        });;
+          self.props.triggerNextStep();
+        });
+
   }
 
 
@@ -93,6 +102,13 @@ const App = () => (
         asMessage: true,
         waitAction: true,
         trigger: 'search',
+      },
+      {
+        id: 'options',
+        options: [
+          { value: 'marie', label: 'Je suis marié', trigger: '3' },
+          { value: 'celibataire', label: 'Je suis célibataire', trigger: '3' },
+        ],
       },
     ]}
   />
