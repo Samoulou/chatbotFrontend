@@ -20,29 +20,34 @@ class DBPedia extends Component {
     this.state = {
       loading: true,
       result: '',
-      trigger: false,
+      trigger: '',
       options: false,
     };
   }
 
   componentWillMount() {
     const self = this;
+    const answerText = 1;
+    const intent = 0;
+    const value = 0;
+    const nextStep = {value:null, trigger:'options'}
     const { steps, previousStep, step } = this.props;
-    // const options = steps.options.value;
-    // const choiceLabel = steps.options.message;
     const search = steps.search.value;
     const endpoint = encodeURI('http://localhost:6060/api/message');
     var headers = new Headers();
-    var message = {
-        "message": search
-    };
-
-
-    // if(options === 'celibataire' || options === 'marie'){
-    //   var message = {
-    //     "message" : choiceLabel
-    //   }
-    // }
+    var options = steps.options;
+    if(options != null){
+      if(steps.options.value === 'celibataire' || steps.options.value === 'marie'){
+        var message = {
+          "message" : steps.options.message,
+        }
+      }
+    }
+    else{
+      var message = {
+          "message": search
+      };
+    }
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
     var fetchOptions = {
@@ -52,26 +57,24 @@ class DBPedia extends Component {
      };
      var responsePromise = fetch(endpoint, fetchOptions);
      // 3. Use the response
-      // ================================
-      responsePromise
-          // 3.1 Convert the response into JSON-JS object.
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(jsonData) {
-          self.setState({
-            result: jsonData,
-          })
-          self.props.triggerNextStep();
-        });
-
+     responsePromise
+    // 3.1 Convert the response into JSON-JS object.
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(jsonData) {
+      if(jsonData[0][0].value === 'price_information'){
+        self.props.triggerNextStep(nextStep)
+      }
+      self.setState({
+        result: jsonData[answerText],
+      })
+      self.props.triggerNextStep();
+    });
   }
-
-
 
   render() {
     const { trigger, loading, result } = this.state;
-
     return (
       <div>
          {this.state.result}
@@ -114,5 +117,4 @@ const App = () => (
   />
     </ThemeProvider>
 );
-
 export default App;
