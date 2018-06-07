@@ -31,15 +31,15 @@ class CustomAnswer extends Component {
   componentWillMount() {
     const self = this;
     const answerText = 1;
-    const intent = 0;
-    const value = 0;
     const nextStep = {value:null, trigger:'options'}
     const { steps, previousStep, step } = this.props;
     const search = steps.search.value;
     const endpoint = encodeURI('http://localhost:6060/api/message');
     var headers = new Headers();
     var options = steps.options;
+    console.log(options);
     if(options != null){
+      var originValue = null;
       if(steps.options.value === 'celibataire' || steps.options.value === 'marie'){
         var message = {
           "message" : steps.options.message,
@@ -53,6 +53,7 @@ class CustomAnswer extends Component {
     }
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
+    console.log(message);
     var fetchOptions = {
        method: 'POST',
        headers,
@@ -68,6 +69,7 @@ class CustomAnswer extends Component {
       return response.json();
     })
     .then(function(jsonData) {
+      console.log(jsonData);
       if(jsonData[0][0].value === 'price_information'){
         self.props.triggerNextStep(nextStep)
       }
