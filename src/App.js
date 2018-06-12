@@ -23,7 +23,6 @@ class CustomAnswer extends Component {
       loading: true,
       result: '',
       trigger: '',
-      options: false,
     };
   }
 
@@ -36,21 +35,22 @@ class CustomAnswer extends Component {
     const search = steps.search.value;
     const endpoint = encodeURI('http://localhost:6060/api/message');
     var headers = new Headers();
-    var options = steps.options;
-    console.log(options);
-    if(options != null){
-      var originValue = null;
-      if(steps.options.value === 'celibataire' || steps.options.value === 'marie'){
-        var message = {
-          "message" : steps.options.message,
-        }
-      }
-    }
-    else{
+    // var options = steps.options;
+    // console.log(options);
+    // if(options != null){
+    //   if(steps.options.value === 'celibataire' || steps.options.value === 'marie'){
+    //     var message = {
+    //       "message" : steps.options.message,
+    //     }
+    //     options = null;
+    //     console.log(options);
+    //   }
+    // }
+    // else{
       var message = {
           "message": search
       };
-    }
+    //}
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
     console.log(message);
@@ -69,10 +69,9 @@ class CustomAnswer extends Component {
       return response.json();
     })
     .then(function(jsonData) {
-      console.log(jsonData);
-      if(jsonData[0][0].value === 'price_information'){
-        self.props.triggerNextStep(nextStep)
-      }
+      // if(jsonData[0][0].value === 'price_information'){
+      //   self.props.triggerNextStep(nextStep)
+      // }
       self.setState({
         result: jsonData[answerText],
       })
@@ -94,6 +93,7 @@ const App = () => (
   <ThemeProvider theme={theme}>
   <ChatBot
     headerTitle={"Chatmee - v1.0"}
+    // recognitionEnable={true}
     botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
     hideUserAvatar={true}
     steps={[
@@ -119,13 +119,13 @@ const App = () => (
         waitAction: true,
         trigger: 'search',
       },
-      {
-        id: 'options',
-        options: [
-          { value: 'marie', label: 'Je suis marié', trigger: '3' },
-          { value: 'celibataire', label: 'Je suis célibataire', trigger: '3' },
-        ],
-      },
+      // {
+      //   id: 'options',
+      //   options: [
+      //     { value: 'marie', label: 'Je suis marié', trigger: '3' },
+      //     { value: 'celibataire', label: 'Je suis célibataire', trigger: '3' },
+      //   ],
+      // },
     ]}
   />
     </ThemeProvider>
