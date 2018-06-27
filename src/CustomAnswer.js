@@ -22,7 +22,7 @@ class CustomAnswer extends Component {
     const nextStep = {value:null, trigger:'options'}
     const { steps, previousStep, step } = this.props;
     const search = steps.search.value;
-    const endpoint = encodeURI('http://localhost:6060/api/message');
+    const endpoint = encodeURI('http://localhost:6060/api/messages');
     var headers = new Headers();
     // var options = steps.options;
     // console.log(options);
@@ -37,8 +37,15 @@ class CustomAnswer extends Component {
     // }
     // else{
       var message = {
-          "message": search
+          "message": search,
+          "savingState": true
       };
+
+      if(message.message === "stop sauvegarde"){
+        message.savingState = false;
+      }
+
+      console.log(message);
     //}
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
@@ -63,8 +70,8 @@ class CustomAnswer extends Component {
       // }
       console.log(jsonData);
       self.setState({
-        result: jsonData[answerText],
-        type: jsonData[type],
+        result: jsonData.answer,
+        type: jsonData.type,
       })
       self.props.triggerNextStep();
     });
