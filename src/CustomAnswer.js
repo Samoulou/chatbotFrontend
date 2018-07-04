@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ChatBot, { Loading } from 'react-simple-chatbot';
+import ChatBot from 'react-simple-chatbot';
 
 class CustomAnswer extends Component {
 
@@ -7,10 +7,9 @@ class CustomAnswer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       result: '',
-      trigger: '',
       type:'',
+      lastIntent:'',
     };
   }
 
@@ -44,8 +43,6 @@ class CustomAnswer extends Component {
       if(message.message === "stop sauvegarde"){
         message.savingState = false;
       }
-
-      console.log(message);
     //}
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
@@ -68,17 +65,17 @@ class CustomAnswer extends Component {
       // if(jsonData[0][0].value === 'price_information'){
       //   self.props.triggerNextStep(nextStep)
       // }
-      console.log(jsonData);
+      console.log(self.state.lastIntent);
       self.setState({
         result: jsonData.answer,
         type: jsonData.type,
+        lastIntent: jsonData.name,
       })
       self.props.triggerNextStep();
     });
   }
 
   renderAnswer(){
-    const { trigger, loading, result } = this.state;
     let answer;
     if (this.state.type === 'text') {
       answer = <div>{this.state.result}</div>;
