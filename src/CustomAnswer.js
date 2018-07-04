@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class CustomAnswer extends Component {
 
@@ -13,6 +16,7 @@ class CustomAnswer extends Component {
     };
   }
 
+
   // TODO: METTRE COMMENTAIRES
   componentWillMount() {
     const self = this;
@@ -23,6 +27,7 @@ class CustomAnswer extends Component {
     const search = steps.search.value;
     const endpoint = encodeURI('http://localhost:6060/api/messages');
     var headers = new Headers();
+    console.log();
     // var options = steps.options;
     // console.log(options);
     // if(options != null){
@@ -37,7 +42,8 @@ class CustomAnswer extends Component {
     // else{
       var message = {
           "message": search,
-          "savingState": true
+          "savingState": cookies.get('chatmee-save'),
+          "conversationUid": cookies.get('chatmee-uid'),
       };
 
       if(message.message === "stop sauvegarde"){

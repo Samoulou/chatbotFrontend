@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import ChatBot, { Loading } from 'react-simple-chatbot';
 import CustomAnswer from './CustomAnswer';
+import GetOption from './getOption';
+import CookieCheck from './CookieCheck';
+import HistoryConversation from './HistoryConversation';
 const theme = {
    backgroundImage: 'url("https://www.bookmee.ch/45cf21b9ee27587b7ea6a87fc033f899.svg")',
    fontFamily: '“Helvetica Neue”,Helvetica,Arial,sans-serif!important',
@@ -15,6 +18,8 @@ const theme = {
 
 };
 
+
+
 const App = () => (
   <ThemeProvider theme={theme}>
   <ChatBot
@@ -24,14 +29,33 @@ const App = () => (
     hideUserAvatar={true}
     steps={[
       {
-        id: '1',
-        message: "Bonjour, je suis Chatmee, l'assistant virtuel de [CompanyName], que puis-je faire pour vous ?",
-        trigger: '2',
+        id: '0',
+        component: <HistoryConversation /> ,
+        // asMessage: true,
+        trigger: '1',
       },
       {
-        id: '2',
-        message: "Vous avez des questions sur les documents à nous fournir pour votre déclaration d’impôts, nos tarifs, les dates butoirs de cette année ?",
-        trigger: 'search',
+        id: '1',
+        message: "Bonjour, je suis Chatmee, l'assistant virtuel de [CompanyName]. Avez-vous des questions sur les documents à nous fournir pour votre déclaration d’impôts, nos tarifs, les dates butoirs de cette année ?",
+        trigger: 'CookieCheck',
+      },
+      {
+        id: 'options',
+        options: [
+          { value: true, label: "J'accepte", trigger: 'getOption' },
+          { value: false, label: 'Je refuse', trigger: 'getOption' },
+        ],
+      },
+      {
+        id: 'CookieCheck',
+        component: <CookieCheck />,
+        asMessage: true,
+        waitAction: true,
+      },
+      {
+        id: 'save',
+        message: "En utilisant Chatmee, vous autorisez The Computer Firm à garder une trace de vos message.",
+        trigger: 'options',
       },
       {
         id: 'search',
@@ -41,6 +65,13 @@ const App = () => (
       {
         id: '3',
         component: <CustomAnswer />,
+        asMessage: true,
+        waitAction: true,
+        trigger: 'search',
+      },
+      {
+        id: 'getOption',
+        component: <GetOption />,
         asMessage: true,
         waitAction: true,
         trigger: 'search',
