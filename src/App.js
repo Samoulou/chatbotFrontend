@@ -91,6 +91,8 @@ class CustomAnswer extends Component {
 const App = () => (
   <ThemeProvider theme={theme}>
   <ChatBot
+    headerTitle="Speech Recognition"
+    recognitionEnable={true}
     headerTitle={"Chatmee - v1.0"}
     botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
     hideUserAvatar={true}
