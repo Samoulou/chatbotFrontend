@@ -23,6 +23,8 @@ const theme = {
 const App = () => (
   <ThemeProvider theme={theme}>
   <ChatBot
+    headerTitle="Speech Recognition"
+    recognitionEnable={true}
     headerTitle={"Chatmee - v1.0"}
     // recognitionEnable={true}
     botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
