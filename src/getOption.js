@@ -20,11 +20,19 @@ class getOption extends Component {
     cookies.set('chatmee-save', options);
     self.props.triggerNextStep();
   }
+  renderAnswer() {
+    console.log(this.props.steps.options.value);
+    if(this.props.steps.options.value === true){
+      return <div>C'est noté, merci !</div>
+    } else {
+      return <div>C'est en ordre, vos messages ne seront pas sauvé</div>
+    }
+  }
 
   render() {
     return (
       <div>
-        Super merci pour la réponse !
+      {this.renderAnswer()}
       </div>
     );
   }

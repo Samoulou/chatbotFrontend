@@ -63,23 +63,26 @@ class HistoryConversation extends Component {
 
 renderConversation () {
   if(this.state.conversation) {
-    var result = "";
+    var table = [];
     for (var i = 0; i < this.state.conversation.messages.length; i++) {
-        result = result + this.state.conversation.messages[i].message + '\n';
+        table.push(<tr><td>{this.state.conversation.messages[i].message}</td></tr>);
       }
-      return <div>{result}</div>;
+      return table;
+
   } else {
-    return <div></div>;
+    return null;
   }
 }
-
   render() {
-
-
     return (
-        <div>
-           {this.renderConversation()}
-        </div>
+      <div>
+        <h3>Voici vos dernières questions</h3>
+        <table>
+          <tbody>
+            {this.renderConversation()}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

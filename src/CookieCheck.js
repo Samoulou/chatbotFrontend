@@ -3,28 +3,43 @@ import ChatBot from 'react-simple-chatbot';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
+const search = {
+  value: null,
+  trigger:'search'
+}
+const save = {
+  value: null,
+  trigger:'save'
+}
 
 class CookieCheck extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
+
     };
   }
 
   componentWillMount() {
     const self = this;
     const { steps } = this.props;
+  }
+
+  nextStep(){
     if(cookies.get('chatmee-save')){
-      self.props.triggerNextStep('search');
+      this.props.getCheck = true;
     }
-    self.props.triggerNextStep('save');
+    else {
+      console.log('save');
+      this.props.getCheck = false;
+    }
+    this.props.triggerNextStep();
   }
 
   render() {
     return (
       <div>
-        Super merci pour la réponse !
+        {this.nextStep()}
       </div>
     );
   }

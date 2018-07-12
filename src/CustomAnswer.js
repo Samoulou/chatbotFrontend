@@ -13,21 +13,21 @@ class CustomAnswer extends Component {
       result: '',
       type:'',
       lastIntent:'',
+      url:'',
     };
   }
-
-
   // TODO: METTRE COMMENTAIRES
   componentWillMount() {
     const self = this;
     const answerText = 1;
     const type = 2;
     const nextStep = {value:null, trigger:'options'}
-    const { steps, previousStep, step } = this.props;
+    const { steps, previousStep} = this.props;
     const search = steps.search.value;
+    const options = steps.search
     const endpoint = encodeURI('http://localhost:6060/api/messages');
     var headers = new Headers();
-    console.log();
+    console.log(options);
     // var options = steps.options;
     // console.log(options);
     // if(options != null){
@@ -45,14 +45,9 @@ class CustomAnswer extends Component {
           "savingState": cookies.get('chatmee-save'),
           "conversationUid": cookies.get('chatmee-uid'),
       };
-
-      if(message.message === "stop sauvegarde"){
-        message.savingState = false;
-      }
     //}
     // Tell the server we want JSON back
     headers.set('Content-Type', 'application/json');
-    console.log(message);
     var fetchOptions = {
        method: 'POST',
        headers,
@@ -68,14 +63,11 @@ class CustomAnswer extends Component {
       return response.json();
     })
     .then(function(jsonData) {
-      // if(jsonData[0][0].value === 'price_information'){
-      //   self.props.triggerNextStep(nextStep)
-      // }
-      console.log(self.state.lastIntent);
       self.setState({
         result: jsonData.answer,
         type: jsonData.type,
         lastIntent: jsonData.name,
+        url:jsonData.url
       })
       self.props.triggerNextStep();
     });
@@ -83,14 +75,14 @@ class CustomAnswer extends Component {
 
   renderAnswer(){
     let answer;
+
     if (this.state.type === 'text') {
       answer = <div>{this.state.result}</div>;
     } else if(this.state.type === 'url') {
-      answer = <a href={this.state.result}>{this.state.result}</a>
+      answer = <a href={this.state.url} target="_blank">{this.state.result}</a>
       }
       return answer;
     }
-
   render() {
     return (
         <div>
