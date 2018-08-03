@@ -57,7 +57,7 @@ var steps = [
   {
     id: '3',
     component: <CustomAnswer />,
-    asMessage: false,
+    asMessage: true,
     waitAction: true,
     trigger: 'search',
   },
@@ -101,20 +101,34 @@ class App extends React.Component {
 
   renderSteps = () => {
     return (
-    <ChatBot
-      headerTitle={"Chatmee - v1.0"}
-      // recognitionEnable={true}
-      botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
-      hideUserAvatar={true}
-      steps={steps}
-    />
+    <div>
+      <ChatBot
+        headerTitle={"Chatmee - v1.0"}
+        // recognitionEnable={true}
+        botAvatar={"http://bookmee.thecomputerfirm.com/img/favicon.png"}
+        hideUserAvatar={true}
+        steps={steps}
+      />
+      <div>
+        <iframe src="https://www.widget.thecomputerfirm.com/?user=U2FsdGVkX18zcx6qYs/1N4xYvs/n8GP71DhfQIoBPz4=&amp;color=3684EA&amp;language=fr&amp;lid=0"
+        id="tcf-widget-iframe"
+        style={{width: '370px', height: '555px', overflow: 'hidden', display: 'none',
+          borderRadius: '8px', backgroundColor: 'rgb(254, 254, 254)', border: '0px solid rgb(235, 235, 235)'}}
+        >
+        </iframe>
+      </div>
+    </div>
+
   )
 }
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        {this.renderSteps()}
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          {this.renderSteps()}
+
+        </ThemeProvider>
+
+
     )
   }
 }

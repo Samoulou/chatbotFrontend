@@ -75,13 +75,24 @@ class CustomAnswer extends Component {
     });
   }
 
-  renderAnswer(){
-    let answer;
+  hideChatbot() {
+    var elements = document.getElementsByClassName('jiqPmN');
+    var frame = document.getElementById('tcf-widget-iframe');
+    console.log(frame);
+    elements[0].style.display = "none";
+    frame.style.display = "block";
+  }
 
+  renderAnswer(){
+    var answer;
+
+    console.log(this.state);
     if (this.state.type === 'text') {
-      //answer = <a className="rsc-os-option-element sc-bxivhb fdiMSm">Parler à un expert</a>;
-      console.log(this.state.lastIntent);
-      answer = <div>{this.state.result}</div>;
+      if(this.state.lastIntent === "unknown_entity"){
+        answer = <div><div>{this.state.result}</div><div><br/><br/><a href="#" onClick={() => this.hideChatbot()}>ou parler à un expert</a></div></div>;
+      } else {
+        answer = <div>{this.state.result}</div>;
+      }
     } else if(this.state.type === 'url') {
       answer = <a href={this.state.url} target="_blank">{this.state.result}</a>
       }
