@@ -35,7 +35,10 @@ class HistoryConversation extends Component {
 
       const convId = cookies.get('chatmee-uid');
 
-      const endpoint = encodeURI('http://localhost:6060/api/messages/' + convId);
+      // const endpoint = encodeURI('http://localhost:6060/api/messages/' + convId);
+      const endpoint = encodeURI('https://tcfchatmee.herokuapp.com/api/messages/' + convId);
+
+
       var headers = new Headers();
       var conversation;
       headers.set('Content-Type', 'application/json');

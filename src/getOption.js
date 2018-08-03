@@ -21,7 +21,6 @@ class getOption extends Component {
     self.props.triggerNextStep();
   }
   renderAnswer() {
-    console.log(this.props.steps.options.value);
     if(this.props.steps.options.value === true){
       return <div>C'est noté, merci !</div>
     } else {

@@ -57,7 +57,7 @@ var steps = [
   {
     id: '3',
     component: <CustomAnswer />,
-    asMessage: true,
+    asMessage: false,
     waitAction: true,
     trigger: 'search',
   },
@@ -76,6 +76,9 @@ var steps = [
   //   ],
   // },
 ]
+
+
+
 class App extends React.Component {
 
   constructor(props) {
@@ -83,6 +86,7 @@ class App extends React.Component {
     this.state = {
       trigger: 'save',
       current: '',
+      isVisible:'',
     };
   }
 

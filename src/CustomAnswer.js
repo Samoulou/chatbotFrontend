@@ -25,7 +25,8 @@ class CustomAnswer extends Component {
     const { steps, previousStep} = this.props;
     const search = steps.search.value;
     const options = steps.search
-    const endpoint = encodeURI('http://localhost:6060/api/messages');
+    // const endpoint = encodeURI('http://localhost:6060/api/messages');
+    const endpoint = encodeURI('https://tcfchatmee.herokuapp.com/api/messages');
     var headers = new Headers();
     console.log(options);
     // var options = steps.options;
@@ -63,6 +64,7 @@ class CustomAnswer extends Component {
       return response.json();
     })
     .then(function(jsonData) {
+      console.log(jsonData);
       self.setState({
         result: jsonData.answer,
         type: jsonData.type,
@@ -77,6 +79,8 @@ class CustomAnswer extends Component {
     let answer;
 
     if (this.state.type === 'text') {
+      //answer = <a className="rsc-os-option-element sc-bxivhb fdiMSm">Parler à un expert</a>;
+      console.log(this.state.lastIntent);
       answer = <div>{this.state.result}</div>;
     } else if(this.state.type === 'url') {
       answer = <a href={this.state.url} target="_blank">{this.state.result}</a>
