@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ChatBot from 'react-simple-chatbot';
 import Cookies from 'universal-cookie';
-
+import config from './config/config.js';
 const cookies = new Cookies();
 
 class HistoryConversation extends Component {
@@ -9,7 +9,7 @@ class HistoryConversation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversation: null,
+      conversation: null
     };
   }
 
@@ -19,74 +19,59 @@ class HistoryConversation extends Component {
 
   componentWillMount() {
     const self = this;
-  // var cookieHistory = cookies.get('chatmee-uid');
-  // var cookieSave = cookies.get('chatmee-save');
-  if (!cookies.get('chatmee-uid')){
+    if (!cookies.get('chatmee-uid')) {
       cookies.set('chatmee-uid', self.generateId());
       cookies.set('chatmee-save', true);
-  } else {
-
-
-      console.log(cookies.get('chatmee-uid'));
-      // console.log(cookieSave);
-
-      const nextStep = {value:null, trigger:'options'}
-      const { steps, previousStep, step } = this.props;
-
+    } else {
+      const nextStep = {
+        value: null,
+        trigger: 'options'
+      }
+      const {steps} = this.props;
       const convId = cookies.get('chatmee-uid');
-
-      // const endpoint = encodeURI('http://localhost:6060/api/messages/' + convId);
-      const endpoint = encodeURI('https://tcfchatmee.herokuapp.com/api/messages/' + convId);
-
-
+      const endpoint = encodeURI(config.ENDPOINT + convId);
       var headers = new Headers();
       var conversation;
       headers.set('Content-Type', 'application/json');
       var fetchOptions = {
-         method: 'GET',
-         headers,
-         body: JSON.stringify(conversation)
-       };
+        method: 'GET',
+        headers,
+        body: JSON.stringify(conversation)
+      };
 
-       var responsePromise = fetch(endpoint, fetchOptions);
-       // 3. Use the response
-       responsePromise
-      // 3.1 Convert the response into JSON-JS object.
-      .then(function(response) {
+      var responsePromise = fetch(endpoint, fetchOptions);
+      //Use the response and Convert the response into JSON-JS object.
+      responsePromise.then(function(response) {
         return response.json();
-      })
-      .then(function(jsonData) {
-        self.setState({
-          conversation: jsonData,
-        })
+      }).then(function(jsonData) {
+        self.setState({conversation: jsonData})
       });
+    }
   }
 
-}
-
-renderConversation () {
-  if(this.state.conversation) {
-    var table = [];
-    for (var i = 0; i < this.state.conversation.messages.length; i++) {
-        table.push(<tr><td>{this.state.conversation.messages[i].message}</td></tr>);
+  //Render the lasts questions asked
+  renderConversation() {
+    if (this.state.conversation) {
+      var table = [];
+      for (var i = 0; i < this.state.conversation.messages.length; i++) {
+        table.push(<tr>
+          <td>{this.state.conversation.messages[i].message}</td>
+        </tr>);
       }
       return table;
-
-  } else {
-    return null;
+    } else {
+      return null;
+    }
   }
-}
   render() {
-    return (
-      <div>
-        <h3>Voici vos dernières questions</h3>
-        <table>
-          <tbody>
-            {this.renderConversation()}
-          </tbody>
-        </table>
-      </div>
-    );
+    return (<div>
+      <h3>Voici vos dernières questions</h3>
+      <table>
+        <tbody>
+          {this.renderConversation()}
+        </tbody>
+      </table>
+    </div>);
   }
 }
 
